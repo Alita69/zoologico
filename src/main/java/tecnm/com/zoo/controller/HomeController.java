@@ -32,6 +32,9 @@ public class HomeController {
 	@Autowired
 	private EspeciesService serviceEspecies;
 
+		@Autowired
+	private UsuariosService serviceUsuarios;
+
 	@GetMapping("/inicio")
 	public String mostrarInicio(Model model) {
 
@@ -125,5 +128,15 @@ public class HomeController {
 	@GetMapping("/logout")
 	public String ejecutarLogout() {
 		return "redirect:/login?logout";
+	}
+
+		@GetMapping("/register")
+	public String registrarUsuario(@ModelAttribute Usuarios usuarios, Model model) {
+		serviceUsuarios.guardarUsuario(usuarios);
+		System.out.println("Usuario registrado: " + usuarios.getNombre() + " / " + usuarios.getUsername());
+
+		// Aquí podrías redirigir al login o mostrar un mensaje de éxito
+		model.addAttribute("mensaje", "Usuario registrado correctamente. Ahora puedes iniciar sesión.");
+		return "login";
 	}
 }
